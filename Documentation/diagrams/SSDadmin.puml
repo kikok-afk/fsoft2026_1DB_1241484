@@ -1,0 +1,20 @@
+@startuml
+skinparam BoxPadding 10
+skinparam ParticipantPadding 10
+
+actor "Administrador" as admin
+participant ":Sistema" as sistema
+
+autonumber
+
+admin -> sistema : autenticar(username, password)
+sistema --> admin : login confirmado (modo admin)
+
+admin -> sistema : consultarCatalogoFilmes()
+sistema --> admin : lista de filmes registados
+
+admin -> sistema : agendarSessao(idFilme, dataHora, filas, colunas)
+Note over sistema: Valida conflitos de horário\n& Cria matriz de lugares
+
+sistema --> admin : sessão agendada com sucesso e associada ao filme
+@enduml

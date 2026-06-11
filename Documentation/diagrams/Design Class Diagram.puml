@@ -1,0 +1,80 @@
+@startuml
+hide circle
+skinparam classAttributeIconSize 0
+
+class Utilizador {
+    - username: std::string
+    - password: std::string
+    + Utilizador(username: std::string, password: std::string)
+    + getUsername(): std::string
+    + validarPassword(pass: std::string): bool
+}
+
+class Administrador {
+    + Administrador(username: std::string, password: std::string)
+    + criarFilme(titulo: std::string, duracao: int, genero: std::string, classEtaria: std::string): Filme
+    + agendarSessao(dataHora: std::string, filas: int, colunas: int, filme: Filme): Sessao
+}
+
+class Cliente {
+    - email: std::string
+    + Cliente(username: std::string, password: std::string, email: std::string)
+    + getEmail(): std::string
+}
+
+class Filme {
+    - titulo: std::string
+    - duracao: int
+    - genero: std::string
+    - classEtaria: std::string
+    + Filme(titulo: std::string, duracao: int, genero: std::string, classEtaria: std::string)
+    + getTitulo(): std::string
+    + getDadosFilme(): std::string
+}
+
+class Sessao {
+    - dataHora: std::string
+    - filas: int
+    - colunas: int
+    - lugaresDisponiveis: std::vector<std::vector<bool>>
+    + Sessao(dataHora: std::string, filas: int, colunas: int, filme: Filme)
+    + exibirDisponibilidade(): void
+    + verificarLugar(f: int, c: int): bool
+    + ocuparLugar(f: int, c: int): bool
+    + getFilme(): Filme
+    + getDataHora(): std::string
+    + calcularLugaresLivres(): int
+}
+
+class Bilhete {
+    - filaEscolhida: int
+    - colunaEscolhida: int
+    - preco: double
+    + Bilhete(fila: int, coluna: int, preco: double, sessao: Sessao)
+    + obterDetalhes(): std::string
+}
+
+class Pagamento {
+    - idPagamento: std::string
+    - metodo: std::string
+    - valor: double
+    - pago: bool
+    + Pagamento(id: std::string, metodo: std::string, valor: double)
+    + processarPagamento(): bool
+    + isPago(): bool
+}
+
+' Relações de Herança
+Utilizador <|-- Administrador
+Utilizador <|-- Cliente
+
+' Associações com métodos de navegação
+Administrador --> "*" Filme : "gere >"
+Administrador --> "*" Sessao : "agenda >"
+
+Sessao --> "1" Filme : "exibe >"
+
+Cliente --> "*" Bilhete : "compra >"
+Bilhete --> "1" Sessao : "refere-se a >"
+Bilhete "1" *-- "1" Pagamento : "contém >"
+@enduml

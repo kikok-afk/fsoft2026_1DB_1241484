@@ -1,0 +1,48 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Utilizador" as user
+actor "Cliente" as cliente
+actor "Administrador" as admin
+
+' Herança de Atores
+user <|-- cliente
+user <|-- admin
+
+rectangle "Sistema de Gestão de Cinema" {
+    ' Casos de Uso do Utilizador Geral
+    (Autenticar no Sistema\n- Login) as UC_Login
+    (Criar Conta\n- Inclui E-mail) as UC_Registo
+
+    ' Casos de Uso do Cliente
+    (Consultar Filmes e Sessões) as UC_VerSessoes
+    (Comprar Bilhete) as UC_Comprar
+    (Escolher Lugar) as UC_Lugar
+    (Efetuar Pagamento) as UC_Pagamento
+    (Receber Bilhete por E-mail) as UC_Email
+
+    ' Casos de Uso do Admin
+    (Gerir Catálogo de Filmes) as UC_GerirFilmes
+    (Gerir Horários e Sessões) as UC_GerirSessoes
+    (Consultar Estatísticas de Ocupação) as UC_Estatistica
+
+    ' Relações de Inclusão e Extensão
+    UC_Comprar ..> UC_Lugar : <<include>>
+    UC_Comprar ..> UC_Pagamento : <<include>>
+    UC_Pagamento ..> UC_Email : <<include>>
+}
+
+' Associações do Utilizador Geral
+user --> UC_Login
+user --> UC_Registo
+
+' Associações do Cliente
+cliente --> UC_VerSessoes
+cliente --> UC_Comprar
+
+' Associações do Administrador
+admin --> UC_GerirFilmes
+admin --> UC_GerirSessoes
+admin --> UC_Estatistica
+@enduml

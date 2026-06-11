@@ -1,0 +1,55 @@
+@startuml
+hide circle
+skinparam classAttributeIconSize 0
+
+class Utilizador {
+    - username: String
+    - password: String
+}
+
+class Administrador {
+}
+
+class Cliente {
+- email: String
+}
+
+class Filme {
+    - titulo: String
+    - duracao: Integer
+    - genero: String
+    - classEtaria: String
+}
+
+class Sessao {
+    - dataHora: DateTime
+    - filasDisponiveis: Integer
+    - colunasDisponiveis: Integer
+}
+
+class Bilhete {
+    - filaEscolhida: Integer
+    - colunaEscolhida: Integer
+    - preco: Double
+}
+
+class Pagamento {
+    - idPagamento: String
+    - metodo: String
+    - valor: Double
+    - estado: String
+}
+
+Utilizador <|-- Administrador
+Utilizador <|-- Cliente
+
+Administrador "1" --> "*" Filme : "gere"
+Administrador "1" --> "*" Sessao : "agenda"
+
+Sessao "*" --> "1" Filme : "exibe"
+
+Cliente "1" --> "*" Bilhete : "compra"
+Bilhete "*" --> "1" Sessao : "refere-se a"
+
+Bilhete "1" -- "1" Pagamento : "é liquidado por"
+@enduml

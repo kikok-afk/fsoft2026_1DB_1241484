@@ -1,0 +1,26 @@
+@startuml
+skinparam BoxPadding 10
+skinparam ParticipantPadding 10
+
+actor "Cliente" as cliente
+participant ":Sistema" as sistema
+
+autonumber
+
+cliente -> sistema : autenticar(username, password)
+sistema --> cliente : login confirmado
+
+cliente -> sistema : consultarSessoes()
+sistema --> cliente : lista de filmes e sessões disponíveis
+
+cliente -> sistema : selecionarSessao(idSessao)
+sistema --> cliente : exibe mapa de lugares (filas x colunas)
+
+cliente -> sistema : escolherLugar(fila, coluna)
+sistema --> cliente : lugar reservado, solicita pagamento (valor)
+
+cliente -> sistema : efetuarPagamento(metodo, email)
+Note over sistema: Processa pagamento\n& Ocupa lugar na matriz
+
+sistema --> cliente : pagamento aprovado e bilhete enviado para o e-mail
+@enduml
